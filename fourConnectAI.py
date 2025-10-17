@@ -106,5 +106,33 @@ class ConnectFourGame:
                     break
             return value
         
-    def get_ai_move():
-        print("AI-code")
+    def get_ai_move(self, difficulty="Hard"):
+        valid_moves = self.get_valid_moves()
+        
+        if not valid_moves:
+            return None
+        
+        if difficulty == "Easy":
+            return random.choice(valid_moves)
+        elif difficulty == "Medium":
+            best_score = -math.inf
+            col = random.choice(valid_moves)
+            for c in valid_moves:
+                row = self.drop_piece(c, 'O')
+                score = self.minimax(0, False, max_depth=3)
+                self.remove_piece(row, c)
+                if score > best_score:
+                    best_score = score
+                    col = c
+            return col
+        else:  # Hard
+            best_score = -math.inf
+            col = random.choice(valid_moves)
+            for c in valid_moves:
+                row = self.drop_piece(c, 'O')
+                score = self.minimax(0, False, max_depth=5)
+                self.remove_piece(row, c)
+                if score > best_score:
+                    best_score = score
+                    col = c
+            return col
