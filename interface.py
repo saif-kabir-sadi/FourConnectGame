@@ -2,7 +2,7 @@ import pygame
 import sys
 import threading
 import time
-from fourConnectAI import ConnectFourGame
+from main import ConnectFourGame
 
 # --- Layout & sizing ---
 SQUARESIZE = 64  # smaller board
