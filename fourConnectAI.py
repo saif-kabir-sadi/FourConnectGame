@@ -73,8 +73,38 @@ class ConnectFourGame:
     def remove_piece(self, row, col):
         self.board[row][col] = ' '
 
-    def minimax():
-        print("Minimax-code")
+    def minimax(self, depth, is_maximizing, max_depth=5, alpha=-math.inf, beta=math.inf):
+        if self.check_winner('O'):
+            return 100 - depth
+        if self.check_winner('X'):
+            return depth - 100
+        if self.is_draw() or depth >= max_depth:
+            return 0
+
+        if is_maximizing:
+            value = -math.inf
+            for col in self.get_valid_moves():
+                row = self.drop_piece(col, 'O')
+                score = self.minimax(depth + 1, False, max_depth, alpha, beta)
+                self.remove_piece(row, col)
+                value = max(value, score)
+                alpha = max(alpha, value)
+                if alpha >= beta:
+                    # beta cut-off
+                    break
+            return value
+        else:
+            value = math.inf
+            for col in self.get_valid_moves():
+                row = self.drop_piece(col, 'X')
+                score = self.minimax(depth + 1, True, max_depth, alpha, beta)
+                self.remove_piece(row, col)
+                value = min(value, score)
+                beta = min(beta, value)
+                if alpha >= beta:
+                    # alpha cut-off
+                    break
+            return value
         
     def get_ai_move():
         print("AI-code")
